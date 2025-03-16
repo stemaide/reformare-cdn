@@ -1,13 +1,39 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
+    // Change main product image
+    function changeImage(src) {
+        $('#mainProductImage').attr('src', src);
+    }
+
+    // Make the function available globally
+    window.changeImage = changeImage;
+
+    // Quantity selector functionality
+    $('#decreaseQuantity').on('click', function () {
+        const $quantityInput = $('#quantityInput');
+        if (parseInt($quantityInput.val()) > 1) {
+            $quantityInput.val(parseInt($quantityInput.val()) - 1);
+        }
+    });
+
+    $('#increaseQuantity').on('click', function () {
+        const $quantityInput = $('#quantityInput');
+        $quantityInput.val(parseInt($quantityInput.val()) + 1);
+    });
+
+    $('#checkout').hide();
+    if (localStorage.getItem('showCheckout') === 'true') {
+        $('#checkout').show();
+        localStorage.removeItem('showCheckout'); // Reset after showing
+    }
     // Add to cart
-    $('#add-cart').on('click', function() {
+    $('#addToCartBtn').on('click', function () {
         var productId = $(this).data('product-id');
         var price = $(this).data('price');
-        var quantity = $('#quantity').val();
+        var quantity = $('#quantityInput').val();
         var user_id = $(this).data('user-id');
 
-        
+
         $.ajax({
             url: 'includes/cart.inc.php',
             method: 'POST',
@@ -18,14 +44,19 @@ $(document).ready(function() {
                 quantity: quantity,
                 user_id: user_id
             },
-            success: function(response) {
+            success: function (response) {
                 console.log('Success response:', response);
                 try {
                     var result = typeof response === 'string' ? JSON.parse(response) : response;
                     if (result.status === 'success') {
                         alert(result.message);
-                        $('#checkout').show();
-                        location.reload();
+                        // Show cart notification
+                        const $toastEl = $('#cartNotification');
+                        const toast = new bootstrap.Toast($toastEl[0]);
+                        toast.show();
+
+                        // Show checkout actions
+                        $('#checkoutActions').css('display', 'flex');
                     } else {
                         alert('Error: ' + result.message);
                     }
@@ -33,7 +64,7 @@ $(document).ready(function() {
                     alert('An error occurred!. Please try again.');
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown) {
                 console.error('AJAX request failed', textStatus, errorThrown);
                 alert('An error occurred. Please try again.');
             }
@@ -41,9 +72,9 @@ $(document).ready(function() {
     });
 
     // update payment details in cart
-    function updateTotals(){
+    function updateTotals() {
         var subtotal = 0;
-        $('.quantity-input').each(function(){
+        $('.quantity-input').each(function () {
             var price = $(this).data('price');
             var quantity = $(this).val();
             subtotal += price * quantity;
@@ -52,7 +83,7 @@ $(document).ready(function() {
         $('#total').text('GH₵' + subtotal.toFixed(2));
     }
 
-    $('.quantity-input').on('change', function(){
+    $('.quantity-input').on('change', function () {
         updateTotals();
 
         // update cart item quantity
@@ -68,12 +99,12 @@ $(document).ready(function() {
                 quantity: quantity,
                 user_id: userId
             },
-            success: function(response){
+            success: function (response) {
                 console.log('Success response:', response);
                 try {
                     var result = typeof response === 'string' ? JSON.parse(response) : response;
                     console.log('Parsed result:', result);
-                    if (result.status === 'success'){
+                    if (result.status === 'success') {
                         location.reload();
                     } else {
                         alert('Error: ' + result.message);
@@ -83,7 +114,7 @@ $(document).ready(function() {
                     alert('An error occurred. Please try again.');
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function (jqXHR, textStatus, errorThrown) {
                 console.error('AJAX request failed', textStatus, errorThrown);
                 alert('An error occurred. Please try again.');
             }
@@ -92,7 +123,7 @@ $(document).ready(function() {
 
     updateTotals();
     // delete item from cart
-    $('.delete-item').on('click', function(){
+    $('.delete-item').on('click', function () {
         var productId = $(this).data('product-id');
         var cartId = $(this).data('cart-id');
         var userId = $(this).data('user-id');
@@ -105,12 +136,12 @@ $(document).ready(function() {
                 cart_id: cartId,
                 user_id: userId
             },
-            success: function(response){
+            success: function (response) {
                 console.log('Success response:', response);
                 try {
                     var result = typeof response === 'string' ? JSON.parse(response) : response;
                     console.log('Parsed result:', result);
-                    if (result.status === 'success'){
+                    if (result.status === 'success') {
                         alert(result.message);
                         location.reload();
                     } else {
@@ -121,22 +152,29 @@ $(document).ready(function() {
                     alert('An error occurred. Please try again.');
                 }
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function (jqXHR, textStatus, errorThrown) {
                 console.error('AJAX request failed', textStatus, errorThrown);
                 alert('An error occurred. Please try again.');
             }
         });
     });
-    // Quantity increment and decrement
-    $('.inc').click(function() {
-        var $input = $(this).siblings('input');
-        $input.val(parseInt($input.val()) + 1);
-    });
 
-    $('.dec').click(function() {
-        var $input = $(this).siblings('input');
-        var value = parseInt($input.val()) - 1;
-        $input.val(value > 0 ? value : 1);
+    // Activate Bootstrap tabs
+    $('button[data-bs-toggle="tab"]').on('click', function(event) {
+        event.preventDefault();
+        const target = $($(this).attr('data-bs-target'));
+        
+        // Hide all tab panes
+        $('.tab-pane').removeClass('show active');
+        
+        // Remove active class from all tabs
+        $('button[data-bs-toggle="tab"]').removeClass('active');
+        
+        // Show the selected tab pane
+        target.addClass('show active');
+        
+        // Add active class to the clicked tab
+        $(this).addClass('active');
     });
 
     const shippingCosts = {
@@ -145,15 +183,15 @@ $(document).ready(function() {
     }
 
     //delivery handling
-    $('#delivery-options').on('change', function() {
+    $('#delivery-options').on('change', function () {
         var deliveryOption = $(this).val();
         var deliveryLocation = $('#delivery-location').val();
 
-        if(deliveryOption == 'door-delivery'){
+        if (deliveryOption == 'door-delivery') {
             $('#delivery-location').show();
-        }else{
-            $('#delivery-location').hide(); 
+        } else {
+            $('#delivery-location').hide();
         }
-        
+
     });
 });

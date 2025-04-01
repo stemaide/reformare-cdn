@@ -1,38 +1,44 @@
 /* Css for the invoice */
 .invoice-container {
     max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
+    margin: 0 auto;
+    padding: 30px;
     background-color: white;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    color: #000;
+    line-height: 1.5;
+    /* box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); */
 }
 
 .logo-text {
     font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 1px;
-    color: #333;
+    font-size: 1.5rem;
+    /* letter-spacing: 1px; */
+    color: #000;
+    text-transform: uppercase;
 }
 
 .tagline {
     font-style: italic;
-    font-size: 0.9rem;
-    color: #666;
+    font-size: 0.8rem;
+    color: #555;
 }
 
-.invoice-header {
+/* .invoice-header {
     border-bottom: 2px solid #f0f0f0;
     padding-bottom: 1.5rem;
     margin-bottom: 2rem;
-}
+} */
 
 .invoice-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
+    color: blue;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: right;
 }
 
-.invoice-number {
+/* .invoice-number {
     font-size: 1.5rem;
     font-weight: 600;
 }
@@ -40,20 +46,45 @@
 .invoice-date {
     font-size: 1rem;
     color: #666;
+} */
+
+.invoice-container table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
+.invoice-container th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.invoice-container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
+}
+
+.invoice-container td:nth-child(3) {
+    text-align: center; /* Quantity columns */
+}
+.invoice-container td:nth-child(4), td:nth-child(5) {
+    text-align: right; /* Price columns */
+}
 .inovice-container.section-title {
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: bold;
+    /* text-transform: uppercase;
     color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem; */
+    margin-bottom: 5px;
 }
 
 .payment-details {
-    background-color: #f8f9fa;
+    text-align: right;
+    margin-bottom: 20px;
+    /* background-color: #f8f9fa;
     padding: 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.25rem; */
 }
 
 .table th {
@@ -61,18 +92,31 @@
     color: #555;
 }
 
+.totals-section {
+    text-align: right;
+    margin-bottom: 20px;
+}
 .total-row {
     font-weight: 700;
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
 }
 
-.footer-note {
+.footer-notes {
+    margin-top: 30px;
+    text-align: center;
     font-size: 0.9rem;
+    /* font-size: 0.9rem;
     color: #666;
     font-style: italic;
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid #f0f0f0; */
+}
+
+@media (max-width: 768px){
+    .invoice-container {
+        padding: 15px;
+    }
 }
 
 #footer-logo .logo {

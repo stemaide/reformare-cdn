@@ -508,3 +508,59 @@
     position: relative;
     z-index: 2;
 }
+/* Responsive image styles for content rendered from TinyMCE */
+
+/* Base responsive container */
+.responsive-image-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 1em auto;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Responsive image styling */
+.responsive-image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Image alignment classes */
+.responsive-image-container.align-left {
+    margin-left: 0;
+    margin-right: auto;
+    justify-content: flex-start;
+}
+
+.responsive-image-container.align-right {
+    margin-left: auto;
+    margin-right: 0;
+    justify-content: flex-end;
+}
+
+.responsive-image-container.align-center {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+
+/* Media queries for extra responsiveness */
+@media screen and (max-width: 768px) {
+    .responsive-image-container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+/* Optional: Add a subtle border to images */
+.responsive-image-container img {
+    border-radius: 4px;
+}
+
+/* Optional: Add hover effect */
+.responsive-image-container img:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}

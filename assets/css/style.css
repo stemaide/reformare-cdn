@@ -565,4 +565,87 @@
     transition: box-shadow 0.3s ease;
 }
 
+.language-switcher {
+    position: absolute;
+    top: 15px;
+    /* Adjust as needed */
+    right: 20px;
+    /* Adjust as needed */
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    /* background-color: rgba(255, 255, 255, 0.9); */
+    padding: 5px 10px;
+    /* Smaller padding since flags are visual */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    /* Use flexbox for alignment */
+    gap: 8px;
+    /* Space between flags */
+    align-items: center;
+    /* Vertically align items */
+}
+
+.language-switcher a {
+    display: inline-flex;
+    /* To correctly center image if needed */
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 2px solid transparent;
+    /* Subtle border for selected state */
+    border-radius: 3px;
+    /* Slightly rounded corners for flags */
+    transition: border-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.language-switcher a:hover {
+    border-color: #007bff;
+    /* Highlight border on hover */
+    opacity: 0.8;
+    /* Slight opacity change on hover */
+}
+
+.language-switcher a.active {
+    border-color: #007bff;
+    /* Stronger border for active flag */
+    opacity: 1;
+    cursor: default;
+    /* Indicate it's not clickable */
+    pointer-events: none;
+    /* Make active flag non-clickable */
+}
+
+.language-switcher img.flag-icon {
+    width: 24px;
+    /* Adjust flag size as needed */
+    height: 16px;
+    /* Maintain aspect ratio (3:2 typical) */
+    vertical-align: middle;
+    /* Align with text if you add any */
+    display: block;
+    /* Remove extra space below image */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .language-switcher {
+        position: static;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        box-shadow: none;
+        border-radius: 0;
+        background-color: #f8f8f8;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .language-switcher img.flag-icon {
+        width: 28px;
+        /* Slightly larger on mobile */
+        height: 18.66px;
+    }
+}
+
 
